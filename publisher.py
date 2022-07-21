@@ -6,12 +6,15 @@ from termcolor import colored
 setthelight = " "
 
 def on_message(client,userdata, message):
+    global setthelight
     if len(str(message.payload.decode("utf-8"))) == 1:
         setthelight = str(message.payload.decode("utf-8"))
+        print(setthelight)
+        
         
 
 
-port = "COM5"
+port = "COM3"
 baud = 9600
 
 ser = serial.Serial(port,baud,timeout=1)
@@ -40,6 +43,7 @@ while True:
         client2.subscribe("setlight0")
         client2.on_message = on_message
         
+       
         if len(setthelight) == 1:
             ser.write(setthelight.encode("utf-8"))
             
@@ -47,7 +51,7 @@ while True:
         if len(x) == 2:
             temperature = x[0]
             lightlevel = x[1]
-            print(colored("///////////////////////","white")+ "\n" + colored("LOG: ","yellow") + colored(str(log),"yellow") + "\n" + colored("Information received.","green")+ "\n" +"Temperature:" + temperature +"\n"+"Light Level:" + lightlevel)
+            print("///////////////////////"+ "\n" + "LOG: " + str(log) + "\n" + "Information received."+ "\n" +"Temperature:" + temperature +"\n"+"Light Level:" + lightlevel)
             client.publish("temperature0",temperature)
             client.publish("light0",lightlevel)
             log+=1
@@ -56,7 +60,7 @@ while True:
         
         
     except Exception as e:
-        print(colored("Senzor error has occured:","red"), e)
+        print("Senzor error has occured:", e)
         
     
     

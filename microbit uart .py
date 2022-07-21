@@ -1,5 +1,9 @@
 import serial
 
+
+
+#this file has the purpose of reiceving messeges from the microbit i used it for testing purposes
+
 port = "COM5"
 baud = 9600
 

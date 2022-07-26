@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import serial
-from termcolor import colored
+
 
 setthelight = " "
 

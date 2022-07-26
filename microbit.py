@@ -22,7 +22,7 @@ off = Image("00000:"
              
 uart.init()
 
-isOn = False
+
 
 while True:
     if uart.any():

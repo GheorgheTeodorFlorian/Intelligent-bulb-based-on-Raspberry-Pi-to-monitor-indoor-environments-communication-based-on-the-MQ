@@ -42,7 +42,7 @@ while True:
     uart.write(str(temperature())+" "+str(display.read_light_level()))
     sleep(2000)
     
-     if temperature() > 65:
+    if temperature() > 65:
         print("Temperature exceeds normal parameters breaking loop")
         display.scroll("Temperature exceeds normal parameters breaking loop")
         break

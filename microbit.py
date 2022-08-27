@@ -46,4 +46,6 @@ while True:
         print("Temperature exceeds normal parameters breaking loop")
         display.scroll("Temperature exceeds normal parameters breaking loop")
         break
-        
+
+
+#display.show(Image.ALL_CLOCKS, loop=True, delay=100)

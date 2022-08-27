@@ -17,10 +17,10 @@ c.execute("""CREATE TABLE IF NOT EXISTS sensorData (LightLevel text,Temperature 
 
 def on_message(client,userdata, message):
     global setthelight
-    
+   
     if len(str(message.payload.decode("utf-8"))) == 1:
         setthelight = str(message.payload.decode("utf-8"))
-        print(setthelight)
+      
         
         
 
@@ -46,13 +46,14 @@ print("Connection made.")
 
 while True:
     try:
+        client2.subscribe("setthelight069")
+        client2.on_message = on_message
         client2.loop_start()
         x = ser.readline()
-      
+        
         x=x.decode('utf8')
         x=x.split(" ")
-        client2.subscribe("temperature0")
-        client2.on_message = on_message
+        
         
        
         if len(setthelight) == 1:
@@ -65,6 +66,9 @@ while True:
             print("///////////////////////"+ "\n" + "LOG: " + str(log) + "\n" + "Information received."+ "\n" +"Temperature:" + temperature +"\n"+"Light Level:" + lightlevel)
             client.publish("temperature0",temperature)
             client.publish("light0",lightlevel)
+            
+            
+            
             textlog = str(log)
             texttemp= str(temperature)
             textlightlevel= str(lightlevel)
@@ -73,8 +77,8 @@ while True:
             current_time = now.strftime("%H:%M:%S")
             c.execute("INSERT INTO sensorData VALUES (?,?,?,?)",(textlightlevel,texttemp,ddate,current_time))
             conn.commit()
-            
             log+=1
+           
             
         
         

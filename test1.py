@@ -14,6 +14,11 @@ import threading
 
 def startScript():
     import publisher.py
+    
+    
+def startGraph():
+    import mathplot
+
 
 x = threading.Thread(target=startScript)
 x.start()
@@ -51,6 +56,13 @@ class Ui_MainWindow(QMainWindow):
         self.client3.publish("setthelight069",1)
         self.label.setText("Lights are ON")
         
+        
+    def onClickGraph(self):
+        startGraph()
+
+
+
+        
     def onClickOFF(self):
         self.Terminal.append("LIGHTS ARE OFF")
         self.client3.publish("setthelight069",0)
@@ -64,7 +76,7 @@ class Ui_MainWindow(QMainWindow):
             self.Terminal.append("Light Level: " + light)
             self.label_7.setText(temperature)
             self.label_6.setText(light)
-            time.sleep(1)
+            
     
     def setupUi(self, MainWindow):
         
@@ -163,8 +175,14 @@ class Ui_MainWindow(QMainWindow):
         self.clearBtn_2 = QtWidgets.QPushButton(self.widget_2)
         self.clearBtn_2.setGeometry(QtCore.QRect(10, 0, 75, 23))
         self.clearBtn_2.setObjectName("clearBtn_2")
-        
         self.clearBtn_2.clicked.connect(self.onClickON)
+        
+        
+        self.clearBtn_graph = QtWidgets.QPushButton(self.widget)
+        self.clearBtn_graph.setGeometry(QtCore.QRect(430, 430, 75, 23))
+        self.clearBtn_graph.setObjectName("graph")
+        
+        self.clearBtn_graph.clicked.connect(self.onClickGraph)
         
         
         self.clearBtn_4 = QtWidgets.QPushButton(self.widget_2)
@@ -210,6 +228,7 @@ class Ui_MainWindow(QMainWindow):
         self.label_7.setText(_translate("MainWindow", "40"))
         self.label_8.setText(_translate("MainWindow", "Output"))
         self.clearBtn_2.setText(_translate("MainWindow", "ON"))
+        self.clearBtn_graph.setText(_translate("MainWindow", "Graph"))
         self.clearBtn_4.setText(_translate("MainWindow", "OFF"))
         self.label.setText(_translate("MainWindow", "Light Status"))
 

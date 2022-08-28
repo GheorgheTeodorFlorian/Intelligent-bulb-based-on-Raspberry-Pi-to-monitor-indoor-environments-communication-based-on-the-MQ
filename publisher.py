@@ -69,7 +69,7 @@ while True:
             
             
             
-            textlog = str(log)
+            
             texttemp= str(temperature)
             textlightlevel= str(lightlevel)
             ddate = str(date.today())

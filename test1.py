@@ -16,9 +16,9 @@ def startScript():
     import publisher.py
     
     
-def startGraph():
+def startGraph(date):
     import mathplot
-
+    mathplot.setup(date)
 
 x = threading.Thread(target=startScript)
 x.start()
@@ -58,7 +58,7 @@ class Ui_MainWindow(QMainWindow):
         
         
     def onClickGraph(self):
-        startGraph()
+        startGraph(self.lineEdit2.text())
 
 
 
@@ -134,6 +134,11 @@ class Ui_MainWindow(QMainWindow):
         self.lineEdit = QtWidgets.QLineEdit(self.widget)
         self.lineEdit.setGeometry(QtCore.QRect(60, 440, 113, 20))
         self.lineEdit.setObjectName("lineEdit")
+        
+        self.lineEdit2 = QtWidgets.QLineEdit(self.widget)
+        self.lineEdit2.setGeometry(QtCore.QRect(430, 400, 113, 20))
+        self.lineEdit2.setObjectName("lineEdit2")
+        
         self.label_3 = QtWidgets.QLabel(self.widget)
         self.label_3.setGeometry(QtCore.QRect(230, 480, 71, 21))
         self.label_3.setStyleSheet("font: 18pt \"MS Shell Dlg 2\";")

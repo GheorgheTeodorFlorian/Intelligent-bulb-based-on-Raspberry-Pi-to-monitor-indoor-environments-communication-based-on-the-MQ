@@ -14,7 +14,7 @@ c = conn.cursor()
 c.execute("""CREATE TABLE IF NOT EXISTS sensorData (LightLevel text,Temperature text,Date text,Time text)""")
 
 
-
+    
 def on_message(client,userdata, message):
     global setthelight
    

@@ -3,10 +3,29 @@ import time
 import serial
 from termcolor import colored
 
+
+
+def on_message(client,userdata, message):
+    print(str(message.payload.decode("utf-8")))
+
 broker = "broker.emqx.io"
 client = mqtt.Client("tester")
 client.connect(broker,1883)
+client.subscribe("000666000")
+client.loop_start()
+client.on_message = on_message
+
+
 
 while True:
-    test = input()
-    client.publish("setlight0",test)
+    client.publish("000666000","hello")
+    time.sleep(500)
+    pass
+   
+
+
+   
+    
+    
+    
+    

@@ -12,15 +12,15 @@ broker = "broker.emqx.io"
 client = mqtt.Client("tester")
 client.connect(broker,1883)
 client.subscribe("000666000")
-client.loop_start()
 client.on_message = on_message
 
 
 
 while True:
-    client.publish("000666000","hello")
-    time.sleep(500)
-    pass
+    client.publish("setthelight069",2) #ON
+    time.sleep(20)
+    client.publish("setthelight069",3) #OFF
+    
    
 
 

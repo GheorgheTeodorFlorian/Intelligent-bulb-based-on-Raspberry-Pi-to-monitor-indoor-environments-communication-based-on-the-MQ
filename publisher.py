@@ -25,12 +25,12 @@ def on_message(client,userdata, message):
         
 
 
-port = "COM3"
+port = "COM5"
 baud = 9600
 
 ser = serial.Serial(port,baud,timeout=1)
 
-broker = "broker.emqx.io"
+broker = "broker.hivemq.com"
 client = mqtt.Client("Temperature")
 client.connect(broker,1883)
 
@@ -62,7 +62,7 @@ while True:
         
         if len(x) == 2:
             temperature = x[0]
-            lightlevel = x[1]
+            lightlevel = x[1] 
             print("///////////////////////"+ "\n" + "LOG: " + str(log) + "\n" + "Information received."+ "\n" +"Temperature:" + temperature +"\n"+"Light Level:" + lightlevel)
             client.publish("temperature0",temperature)
             client.publish("light0",lightlevel)

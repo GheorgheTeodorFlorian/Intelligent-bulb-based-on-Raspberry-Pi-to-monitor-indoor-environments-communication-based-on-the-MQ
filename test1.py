@@ -10,8 +10,8 @@ import sys
 import time
 from PyQt5.QtCore import QTimer
 import threading
-
-
+from threading import Timer
+from datetime import datetime
 def startScript():
     import publisher.py
     
@@ -56,7 +56,21 @@ class Ui_MainWindow(QMainWindow):
         self.client3.publish("setthelight069",1)
         self.label.setText("Lights are ON")
         
+    
+    def offAlarm(self):
+        self.client3.publish("setthelight069",3)
+        self.Terminal.append("ALARM HAS BEEN DISABLED")
+    
+    def onAlarm(self):
+        self.Terminal.append("ALARM HAS BEEN SET FOR: " + self.lineEdit.text() + " MINUTES")
+        self.timer = float(self.lineEdit.text()) * 60
+        self.timeStamp = datetime.now()
+        r = Timer(self.timer, lambda : self.client3.publish("setthelight069",2))
+        r.start()
         
+        
+
+    
     def onClickGraph(self):
         startGraph(self.lineEdit2.text())
 
@@ -76,13 +90,19 @@ class Ui_MainWindow(QMainWindow):
             self.Terminal.append("Light Level: " + light)
             self.label_7.setText(temperature)
             self.label_6.setText(light)
+        timeStamp2 = datetime.now()
+        elapsedTime = (timeStamp2-self.timeStamp).total_seconds()
+        timeRemain = self.timer-elapsedTime
+        if timeRemain < 0:
+            timeRemain = 0
+        self.label_3.setText(str(timeRemain))
             
     
     def setupUi(self, MainWindow):
+        self.timer = 0
+        self.timeStamp = datetime.now()
         
-        
-        
-        broker = "broker.emqx.io"
+        broker = "broker.hivemq.com"
         self.client = mqtt.Client("ature78678678678678")
         self.client.connect(broker,1883)
         self.client.subscribe("temperature0")
@@ -140,12 +160,20 @@ class Ui_MainWindow(QMainWindow):
         self.lineEdit2.setObjectName("lineEdit2")
         
         self.label_3 = QtWidgets.QLabel(self.widget)
-        self.label_3.setGeometry(QtCore.QRect(230, 480, 71, 21))
+        self.label_3.setGeometry(QtCore.QRect(230, 470, 71, 21))
         self.label_3.setStyleSheet("font: 18pt \"MS Shell Dlg 2\";")
         self.label_3.setObjectName("label_3")
         self.clearBtn_3 = QtWidgets.QPushButton(self.widget)
         self.clearBtn_3.setGeometry(QtCore.QRect(180, 440, 75, 23))
         self.clearBtn_3.setObjectName("clearBtn_3")
+        self.clearBtn_3.clicked.connect(self.onAlarm)
+        
+        self.clearBtn_5 = QtWidgets.QPushButton(self.widget)
+        self.clearBtn_5.setGeometry(QtCore.QRect(265, 440, 75, 23))
+        self.clearBtn_5.setObjectName("clearBtn_5")
+        self.clearBtn_5.clicked.connect(self.offAlarm)
+        
+        
         self.label_4 = QtWidgets.QLabel(self.widget)
         self.label_4.setGeometry(QtCore.QRect(390, 20, 121, 31))
         self.label_4.setStyleSheet("font: 14pt \"MS Shell Dlg 2\";")
@@ -227,6 +255,7 @@ class Ui_MainWindow(QMainWindow):
         self.lineEdit.setText(_translate("MainWindow", "2"))
         self.label_3.setText(_translate("MainWindow", "43"))
         self.clearBtn_3.setText(_translate("MainWindow", "Create"))
+        self.clearBtn_5.setText(_translate("MainWindow", "Cancel Alarm"))
         self.label_4.setText(_translate("MainWindow", "Temperature:"))
         self.label_5.setText(_translate("MainWindow", "Light Level: "))
         self.label_6.setText(_translate("MainWindow", "30"))
